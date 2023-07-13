@@ -6,18 +6,30 @@
 //
 
 import SwiftUI
-
 struct ContentView: View {
+    @StateObject var viewModel = MovieViewModel()
+    @State var currentPage: Int = 0
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-            Text("Hi")
-            Text("Change 1")
+        
+        NavigationView{
+            VStack{
+                List(0..<viewModel.movieData.count) { movies in
+                    NavigationLink {
+                        SynopsisView(sampleMovie: viewModel.movieData[movies])
+                    } label: {
+                        MovieView(sampleMovie: viewModel.movieData[movies])
+                    }.navigationTitle("Page " + "\(viewModel.currentPage): ")
+                }.listStyle(.plain)
+                
+                Spacer()
+                HorizontalScrollView(currentPage: $currentPage, count: 20)
+            }
+        }.onChange(of: currentPage) { page in
+            viewModel.currentPage = page
+            viewModel.loadMovies()
+        }.onAppear {
+            viewModel.loadMovies()
         }
-        .padding()
     }
 }
 
