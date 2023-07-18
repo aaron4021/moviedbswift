@@ -8,7 +8,6 @@
 import Foundation
 
 struct QueryResult: Hashable, Codable  {
-    
     var page: Int
     var results: [Movies]
 }

@@ -12,7 +12,7 @@ struct RectangleView: View {
     @Binding var currentPage: Int
     var body: some View {
         Button {
-            currentPage = Int(title)!
+            currentPage = Int(title) ?? 1
         } label: {
             ZStack {
                 Rectangle()
@@ -34,7 +34,7 @@ struct HorizontalScrollView: View {
             ScrollView(.horizontal) {
                 HStack(alignment: .center, spacing: 10) {
                     ForEach(1..<count+1) {
-                        i in RectangleView(title: "\(i)", currentPage: $currentPage)
+                        pageNumber in RectangleView(title: "\(pageNumber)", currentPage: $currentPage)
                     }
                 }.padding()
             }.frame(height: 80)

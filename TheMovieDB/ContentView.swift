@@ -9,7 +9,6 @@ import SwiftUI
 struct ContentView<T : MovieViewModelProtocol>: View {
     @StateObject var viewModel: T
     @State var currentPage: Int = 0
-    
     var body: some View {
         
         NavigationView{
@@ -17,9 +16,9 @@ struct ContentView<T : MovieViewModelProtocol>: View {
                 List {
                     ForEach(viewModel.movieData) { movies in
                         NavigationLink {
-                            SynopsisView(sampleMovie: movies)
+                            SynopsisView(movie: movies)
                         } label: {
-                            MovieView(sampleMovie: movies)
+                            MovieView(movie: movies)
                         }.navigationTitle("Page " + "\(viewModel.currentPage): ")
                     }
                 }.listStyle(.plain)

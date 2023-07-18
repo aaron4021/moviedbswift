@@ -15,6 +15,9 @@ struct Movies: Identifiable, Hashable, Codable {
     var voteAverage: Double
     var backDropPath: String?
     var overview: String
+    var imageFullURLComputedProperty: URL? {
+        return URL(string: baseImgURL + (backDropPath ?? ""))
+    }
     
     enum CodingKeys: String, CodingKey {
         case title = "title"

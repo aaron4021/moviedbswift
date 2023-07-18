@@ -11,18 +11,15 @@ protocol MovieDataSourceProtocol {
     func getPopularMovies(page: Int, completion: @escaping (QueryResult?) -> Void)
 }
 
-let AUTH: String = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNjNiMTg2NzRmZjlmNzAzYjVlYjU3NjcyYmFmZDljMiIsInN1YiI6IjY0OGFhOTdiMjYzNDYyMDBjYTE4Nzk4YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tQgyjS495o4qqwycv2DYovgi544ubIwy6ZtujaiqWok"
+
 class MovieDataSource: MovieDataSourceProtocol {
-    
-    //@Published var pageResults: QueryResult = QueryResult(page: 0, results: [])
     func getPopularMovies(page: Int, completion: @escaping (QueryResult?) -> Void) {
-        guard let url = URL(string: "https://api.themoviedb.org/3/movie/popular?language=en-US&page=\(page)") else {
-        return
+        guard let url = MovieURL.popular(page: page).url else {
+            return
         }
-        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.addValue("Bearer \(AUTH)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer " + Constants.Auth, forHTTPHeaderField: "Authorization")
         request.addValue("application/json", forHTTPHeaderField: "accept")
         
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, _, error in

@@ -9,22 +9,22 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct MovieView: View {
-    var sampleMovie: Movies
+    var movie: Movies
     var body: some View {
         HStack {
             Spacer()
-            WebImage(url: URL(string: "https://image.tmdb.org/t/p/original" + (sampleMovie.backDropPath ?? "apple")))
+            WebImage(url: (movie.imageFullURLComputedProperty ?? URL(string: "")))
                 .resizable()
                 .frame(width: 100, height: 100)
                 .aspectRatio(contentMode: .fit)
                 .padding()
             Spacer()
             VStack(spacing: 5){
-                Text("Title: " + sampleMovie.title)
+                Text("Title: " + movie.title)
                     .multilineTextAlignment(.leading)
-                Text("Release Date: " + sampleMovie.releaseDate)
+                Text("Release Date: " + movie.releaseDate)
                     .multilineTextAlignment(.leading)
-                Text("Rating: " + String(sampleMovie.voteAverage))
+                Text("Rating: " + String(movie.voteAverage))
                     .multilineTextAlignment(.leading)
             }.padding()
             Spacer()
@@ -36,6 +36,6 @@ struct MovieView: View {
 
 struct MovieView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieView(sampleMovie: Movies(id: UUID(), idMovie: 1, title: "John Doe", releaseDate: "1/1/01", voteAverage: 99, backDropPath: "/qWQSnedj0LCUjWNp9fLcMtfgadp.jpg", overview: "Bah"))
+        MovieView(movie: Movies(id: UUID(), idMovie: 1, title: "John Doe", releaseDate: "1/1/01", voteAverage: 99, backDropPath: "/qWQSnedj0LCUjWNp9fLcMtfgadp.jpg", overview: "Bah"))
     }
 }
