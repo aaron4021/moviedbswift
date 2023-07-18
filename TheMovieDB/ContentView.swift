@@ -6,23 +6,37 @@
 //
 
 import SwiftUI
-
-struct ContentView: View {
+struct ContentView<T : MovieViewModelProtocol>: View {
+    @StateObject var viewModel: T
+    @State var currentPage: Int = 0
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-            Text("Hi")
-            Text("Change 1")
+        
+        NavigationView{
+            VStack{
+                List {
+                    ForEach(viewModel.movieData) { movies in
+                        NavigationLink {
+                            SynopsisView(movie: movies)
+                        } label: {
+                            MovieView(movie: movies)
+                        }.navigationTitle("Page " + "\(viewModel.currentPage): ")
+                    }
+                }.listStyle(.plain)
+                
+                Spacer()
+                HorizontalScrollView(currentPage: $currentPage, count: 20)
+            }
+        }.onChange(of: currentPage) { page in
+            viewModel.currentPage = page
+            viewModel.loadMovies()
+        }.onAppear {
+            viewModel.loadMovies()
         }
-        .padding()
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView<<#T: MovieViewModelProtocol#>>()
+//    }
+//}
