@@ -6,19 +6,22 @@
 //
 
 import SwiftUI
-struct ContentView: View {
-    @StateObject var viewModel = MovieViewModel()
+struct ContentView<T : MovieViewModelProtocol>: View {
+    @StateObject var viewModel: T
     @State var currentPage: Int = 0
+    
     var body: some View {
         
         NavigationView{
             VStack{
-                List(0..<viewModel.movieData.count) { movies in
-                    NavigationLink {
-                        SynopsisView(sampleMovie: viewModel.movieData[movies])
-                    } label: {
-                        MovieView(sampleMovie: viewModel.movieData[movies])
-                    }.navigationTitle("Page " + "\(viewModel.currentPage): ")
+                List {
+                    ForEach(viewModel.movieData) { movies in
+                        NavigationLink {
+                            SynopsisView(sampleMovie: movies)
+                        } label: {
+                            MovieView(sampleMovie: movies)
+                        }.navigationTitle("Page " + "\(viewModel.currentPage): ")
+                    }
                 }.listStyle(.plain)
                 
                 Spacer()
@@ -33,8 +36,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView<<#T: MovieViewModelProtocol#>>()
+//    }
+//}

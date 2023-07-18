@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct SynopsisView: View {
     var sampleMovie: Movies
@@ -16,10 +17,10 @@ struct SynopsisView: View {
                 .fontWeight(.bold)
                 .padding()
                 .font(.title2)
-            Image(sampleMovie.img)
+            WebImage(url: URL(string: "https://image.tmdb.org/t/p/original" + (sampleMovie.backDropPath ?? "apple")))
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-            Text(sampleMovie.synopsis)
+            Text(sampleMovie.overview)
                 .padding()
                 .font(.body)
             Spacer()
@@ -30,6 +31,6 @@ struct SynopsisView: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        SynopsisView(sampleMovie: Movies(id: 1, title: "John Doe", releaseDate: "1/1/01", rating: 99, img: "apple", synopsis: "BlahBlah"))
+        SynopsisView(sampleMovie: Movies(id: UUID(), idMovie: 1, title: "John Doe", releaseDate: "1/1/01", voteAverage: 99, backDropPath: "apple", overview: "BlahBlah"))
     }
 }

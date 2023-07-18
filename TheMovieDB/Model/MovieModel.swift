@@ -7,11 +7,21 @@
 
 import SwiftUI
 
-struct Movies: Identifiable {
-    var id: Int
+struct Movies: Identifiable, Hashable, Codable {
+    var id: UUID = UUID()
+    var idMovie: Int
     var title: String
     var releaseDate: String
-    var rating: Int
-    var img: String
-    var synopsis: String
+    var voteAverage: Double
+    var backDropPath: String?
+    var overview: String
+    
+    enum CodingKeys: String, CodingKey {
+        case title = "title"
+        case releaseDate = "release_date"
+        case voteAverage = "vote_average"
+        case backDropPath = "backdrop_path"
+        case overview = "overview"
+        case idMovie = "id"
+    }
 }

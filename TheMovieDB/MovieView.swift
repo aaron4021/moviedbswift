@@ -6,22 +6,27 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct MovieView: View {
     var sampleMovie: Movies
     var body: some View {
         HStack {
             Spacer()
-            Image(sampleMovie.img)
+            WebImage(url: URL(string: "https://image.tmdb.org/t/p/original" + (sampleMovie.backDropPath ?? "apple")))
                 .resizable()
-                .frame(width: 80, height: 80)
+                .frame(width: 100, height: 100)
+                .aspectRatio(contentMode: .fit)
                 .padding()
             Spacer()
-            VStack{
+            VStack(spacing: 5){
                 Text("Title: " + sampleMovie.title)
+                    .multilineTextAlignment(.leading)
                 Text("Release Date: " + sampleMovie.releaseDate)
-                Text("Rating: " + String(sampleMovie.rating))
-            }
+                    .multilineTextAlignment(.leading)
+                Text("Rating: " + String(sampleMovie.voteAverage))
+                    .multilineTextAlignment(.leading)
+            }.padding()
             Spacer()
         }.background(Color.blue)
             .cornerRadius(20)
@@ -31,6 +36,6 @@ struct MovieView: View {
 
 struct MovieView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieView(sampleMovie: Movies(id: 1, title: "John Doe", releaseDate: "1/1/01", rating: 99, img: "apple", synopsis: "Bah"))
+        MovieView(sampleMovie: Movies(id: UUID(), idMovie: 1, title: "John Doe", releaseDate: "1/1/01", voteAverage: 99, backDropPath: "/qWQSnedj0LCUjWNp9fLcMtfgadp.jpg", overview: "Bah"))
     }
 }

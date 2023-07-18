@@ -7,11 +7,27 @@
 
 import Foundation
 
-class MovieViewModel: ObservableObject {
+protocol MovieViewModelProtocol: ObservableObject {
+    func loadMovies()
+    var currentPage: Int { get set }
+    var movieData: [Movies] { get }
+}
+
+class MovieViewModel: MovieViewModelProtocol {
     @Published var currentPage = 1
     @Published var movieData: [Movies] = [Movies]()
-    let dataSource = DummyDataSource()
+    var networkDataSource: MovieDataSourceProtocol
+    init(networkDataSource: MovieDataSourceProtocol = MovieDataSource()){
+        self.networkDataSource = networkDataSource
+    }
+    //let dataSource = DummyDataSource()
     func loadMovies() {
-       movieData = dataSource.loadMovies(page: currentPage)
+       //movieData = dataSource.loadMovies(page: currentPage)
+        networkDataSource.getPopularMovies(page: currentPage) { queryResult in
+            guard let movieData = queryResult?.results else {
+                return
+            }
+            self.movieData = movieData
+        }
     }
 }
